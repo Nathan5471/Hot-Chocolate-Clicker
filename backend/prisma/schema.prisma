@@ -12,3 +12,12 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model Game {
+  id                     Int @id @default(autoincrement())
+  hotChocolates          Int @default(0)
+  allTimeHotChocolates   Int @default(0)
+  hotChocolatesPerClick  Int @default(1)
+  hotChocolatesPerSecond Int @default(0)
+  // I need to add upgrade amounts, but I'm not sure what they are yet.
+}
