@@ -7,9 +7,10 @@ const gameSocket = (io: Server) => {
     socket.emit("gameRetrieved", game);
 
     socket.on("click", async () => {
+      console.log("Clicked");
       try {
         const updatedGame = await click();
-        io.emit("updatedGame", updatedGame);
+        io.emit("gameUpdated", updatedGame);
       } catch (error) {
         socket.emit("error", { action: "click", error });
       }

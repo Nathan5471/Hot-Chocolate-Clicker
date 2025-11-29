@@ -4,6 +4,7 @@ import { Server } from "socket.io";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import gameSocket from "./socket/gameSocket";
+import { createProxyMiddleware } from "http-proxy-middleware";
 
 dotenv.config();
 
@@ -18,6 +19,15 @@ app.use(express.json());
 app.use(cookieParser());
 
 gameSocket(io);
+
+app.use(
+  "/",
+  createProxyMiddleware({
+    target: "http://localhost:5173",
+    changeOrigin: true,
+    ws: true,
+  })
+);
 
 server.listen(3000, () => {
   console.log("Server is running on port 3000");
