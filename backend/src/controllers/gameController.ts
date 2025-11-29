@@ -68,7 +68,7 @@ export const purchaseUpgrade = async (upgrade: number) => {
   const upgradeData =
     upgradeMap[upgrade as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11];
   // The base price is 5^upgradeNumber
-  const price = 5 ** upgrade * 1.25 ** upgradeData.amount;
+  const price = Math.round(5 ** upgrade * 1.25 ** upgradeData.amount);
   if (price > game.hotChocolates) {
     throw new Error("Can't afford this upgrade");
   }
