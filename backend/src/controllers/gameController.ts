@@ -99,3 +99,17 @@ export const purchaseUpgrade = async (upgrade: number) => {
   });
   return updatedGame;
 };
+
+export const tickHotChocolatesPerSecond = async () => {
+  let game = await prisma.game.findFirst();
+  if (!game) {
+    game = await prisma.game.create({});
+  }
+  const updatedGame = await prisma.game.update({
+    where: { id: game.id },
+    data: {
+      hotChocolates: game.hotChocolates + game.hotChocolatesPerSecond,
+    },
+  });
+  return updatedGame;
+};

@@ -1,7 +1,17 @@
 import { Server, Socket } from "socket.io";
-import { getGame, click, purchaseUpgrade } from "../controllers/gameController";
+import {
+  getGame,
+  click,
+  purchaseUpgrade,
+  tickHotChocolatesPerSecond,
+} from "../controllers/gameController";
 
 const gameSocket = (io: Server) => {
+  setInterval(async () => {
+    const updatedGame = await tickHotChocolatesPerSecond();
+    io.emit("gameUpdated", updatedGame);
+  }, 1000);
+
   io.on("connection", async (socket: Socket) => {
     const game = await getGame();
     socket.emit("gameRetrieved", game);
