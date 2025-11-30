@@ -46,35 +46,47 @@ export const purchaseUpgrade = async (id: number, upgrade: number) => {
     throw new Error("Game not found");
   }
   const upgradeMap = {
-    1: { upgradeEffect: "clicks", upgradeWeight: 1, amount: game.upgrade1 },
-    2: { upgradeEffect: "clicks", upgradeWeight: 5, amount: game.upgrade2 },
-    3: { upgradeEffect: "perSecond", upgradeWeight: 12, amount: game.upgrade3 },
-    4: { upgradeEffect: "clicks", upgradeWeight: 30, amount: game.upgrade4 },
-    5: { upgradeEffect: "perSecond", upgradeWeight: 50, amount: game.upgrade5 },
+    1: { upgradeEffect: "clicks", upgradeWeight: 15, amount: game.upgrade1 },
+    2: { upgradeEffect: "clicks", upgradeWeight: 80, amount: game.upgrade2 },
+    3: {
+      upgradeEffect: "perSecond",
+      upgradeWeight: 300,
+      amount: game.upgrade3,
+    },
+    4: { upgradeEffect: "clicks", upgradeWeight: 1000, amount: game.upgrade4 },
+    5: {
+      upgradeEffect: "perSecond",
+      upgradeWeight: 20000,
+      amount: game.upgrade5,
+    },
     6: {
       upgradeEffect: "perSecond",
-      upgradeWeight: 500,
+      upgradeWeight: 130000,
       amount: game.upgrade6,
     },
-    7: { upgradeEffect: "clicks", upgradeWeight: 350, amount: game.upgrade7 },
+    7: {
+      upgradeEffect: "clicks",
+      upgradeWeight: 750000,
+      amount: game.upgrade7,
+    },
     8: {
       upgradeEffect: "perSecond",
-      upgradeWeight: 4700,
+      upgradeWeight: 1000000,
       amount: game.upgrade8,
     },
     9: {
       upgradeEffect: "perSecond",
-      upgradeWeight: 60000,
+      upgradeWeight: 15000000,
       amount: game.upgrade9,
     },
     10: {
       upgradeEffect: "clicks",
-      upgradeWeight: 10000,
+      upgradeWeight: 64000000,
       amount: game.upgrade10,
     },
     11: {
       upgradeEffect: "perSecond",
-      upgradeWeight: 250000,
+      upgradeWeight: 100000000,
       amount: game.upgrade11,
     },
   };
@@ -84,7 +96,9 @@ export const purchaseUpgrade = async (id: number, upgrade: number) => {
   const upgradeData =
     upgradeMap[upgrade as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11];
   // The base price is 5^upgradeNumber
-  const price = Math.round(5 ** upgrade * 1.25 ** upgradeData.amount);
+  const price = Math.round(
+    105.36 ** (0.6 + upgrade * 0.4) * 1.4 ** upgradeData.amount
+  );
   if (price > game.hotChocolates) {
     throw new Error("Can't afford this upgrade");
   }

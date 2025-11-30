@@ -9,6 +9,8 @@ import {
 } from "../controllers/gameController";
 
 const gameSocket = (io: Server) => {
+  let activePlayerCount: { [key: number]: number } = {};
+
   setInterval(async () => {
     const updatedGames = await tickHotChocolatesPerSecond();
     for (const updatedGame of updatedGames) {
@@ -20,6 +22,7 @@ const gameSocket = (io: Server) => {
     socket.join("waitingRoom");
     const games = await getGames();
     socket.emit("games", games);
+    let chosenGame = null as null | number;
 
     socket.on("joinGame", async (gameId: number) => {
       try {
@@ -27,6 +30,16 @@ const gameSocket = (io: Server) => {
         socket.leave("waitingRoom");
         socket.join(`game_${game.id}`);
         socket.emit("gameJoined", game);
+        chosenGame = game.id;
+        if (!Object.keys(activePlayerCount).includes(String(game.id))) {
+          activePlayerCount[game.id] = 1;
+        } else {
+          activePlayerCount[game.id] += 1;
+        }
+        io.to(`game_${game.id}`).emit(
+          "playerCount",
+          activePlayerCount[game.id]
+        );
       } catch (error) {
         socket.emit("error", { action: "join", error });
       }
@@ -38,6 +51,12 @@ const gameSocket = (io: Server) => {
         socket.leave("waitingRoom");
         socket.join(`game_${game.id}`);
         socket.emit("gameJoined", game);
+        chosenGame = game.id;
+        activePlayerCount[game.id] = 1;
+        io.to(`game_${game.id}`).emit(
+          "playerCount",
+          activePlayerCount[game.id]
+        );
         const games = await getGames();
         io.to("waitingRoom").emit("games", games);
       } catch (error) {
@@ -60,6 +79,16 @@ const gameSocket = (io: Server) => {
         io.to(`game_${gameId}`).emit("gameUpdated", updatedGame);
       } catch (error) {
         socket.emit("error", { action: "purchase", error });
+      }
+    });
+
+    socket.on("disconnect", () => {
+      if (chosenGame) {
+        activePlayerCount[chosenGame] -= 1;
+        io.to(`game_${chosenGame}`).emit(
+          "playerCount",
+          activePlayerCount[chosenGame]
+        );
       }
     });
   });
