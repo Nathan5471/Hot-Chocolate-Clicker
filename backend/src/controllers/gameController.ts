@@ -1,17 +1,31 @@
 import prisma from "../prisma/client";
 
-export const getGame = async () => {
-  let game = await prisma.game.findFirst();
+export const getGames = async () => {
+  const games = await prisma.game.findMany();
+  return games.map((game) => game.id);
+};
+
+export const getGame = async (id: number) => {
+  const game = await prisma.game.findUnique({
+    where: { id },
+  });
   if (!game) {
-    game = await prisma.game.create({});
+    throw new Error("Game not found");
   }
   return game;
 };
 
-export const click = async () => {
-  let game = await prisma.game.findFirst();
+export const createGame = async () => {
+  const game = await prisma.game.create({});
+  return game;
+};
+
+export const click = async (id: number) => {
+  const game = await prisma.game.findUnique({
+    where: { id },
+  });
   if (!game) {
-    game = await prisma.game.create({});
+    throw new Error("Game not found");
   }
   const clickedGame = await prisma.game.update({
     where: { id: game.id },
@@ -24,10 +38,12 @@ export const click = async () => {
   return clickedGame;
 };
 
-export const purchaseUpgrade = async (upgrade: number) => {
-  let game = await prisma.game.findFirst();
+export const purchaseUpgrade = async (id: number, upgrade: number) => {
+  const game = await prisma.game.findUnique({
+    where: { id },
+  });
   if (!game) {
-    game = await prisma.game.create({});
+    throw new Error("Game not found");
   }
   const upgradeMap = {
     1: { upgradeEffect: "clicks", upgradeWeight: 1, amount: game.upgrade1 },
@@ -101,15 +117,16 @@ export const purchaseUpgrade = async (upgrade: number) => {
 };
 
 export const tickHotChocolatesPerSecond = async () => {
-  let game = await prisma.game.findFirst();
-  if (!game) {
-    game = await prisma.game.create({});
+  const games = await prisma.game.findMany();
+  let updatedGames = [];
+  for (const game of games) {
+    const updatedGame = await prisma.game.update({
+      where: { id: game.id },
+      data: {
+        hotChocolates: game.hotChocolates + game.hotChocolatesPerSecond,
+      },
+    });
+    updatedGames.push(updatedGame);
   }
-  const updatedGame = await prisma.game.update({
-    where: { id: game.id },
-    data: {
-      hotChocolates: game.hotChocolates + game.hotChocolatesPerSecond,
-    },
-  });
-  return updatedGame;
+  return updatedGames;
 };
