@@ -20,10 +20,15 @@ function App() {
     upgrade10: number;
     upgrade11: number;
   }
+  const [gameList, setGameList] = useState<number[] | null>(null);
   const [game, setGame] = useState<Game | null>(null);
 
   useEffect(() => {
-    socket.on("gameRetrieved", (game: Game) => {
+    socket.on("games", (games: number[]) => {
+      setGameList(games);
+    });
+
+    socket.on("gameJoined", (game: Game) => {
       setGame(game);
     });
 
@@ -32,8 +37,17 @@ function App() {
     });
   }, []);
 
+  const joinGame = (gameId: number) => {
+    socket.emit("joinGame", gameId);
+  };
+
+  const createGame = () => {
+    socket.emit("createGame");
+  };
+
   const clickButton = () => {
-    socket.emit("click");
+    if (!game) return;
+    socket.emit("click", game.id);
   };
 
   const purchaseUpgrade = (upgrade: number) => {
@@ -60,8 +74,39 @@ function App() {
           ]
     );
     if (price > game.hotChocolates) return;
-    socket.emit("purchaseUpgrade", upgrade);
+    socket.emit("purchaseUpgrade", game.id, upgrade);
   };
+
+  if (!game && !gameList) return;
+
+  if (!game && gameList) {
+    return (
+      <div className="w-screen h-screen flex flex-row bg-primary-a0 items-center justify-center">
+        <div className="w-1/3 h-1/2 flex flex-col items-center bg-primary-a1 rounded-lg p-4">
+          <h1 className="text-2xl text-center font-bold">Available Games</h1>
+          <div className="flex flex-col w-full h-full overflow-y-auto">
+            {gameList.map((gameId) => (
+              <div className="w-full h-15 bg-primary-a2 flex flex-row mt-2 items-center justify-center">
+                <h2 className="text-lg ml-2">Game #{gameId}</h2>
+                <button
+                  className="ml-auto mr-2 p-2 rounded-lg bg-primary-a3 hover:bg-primary-a4 transition-colors"
+                  onClick={() => joinGame(gameId)}
+                >
+                  Join
+                </button>
+              </div>
+            ))}
+          </div>
+          <button
+            className="mt-2 mb-2 p-2 rounded-lg w-full bg-primary-a2 hover:bg-primary-a3 transition-colors"
+            onClick={createGame}
+          >
+            Create Game
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   if (!game) return;
 

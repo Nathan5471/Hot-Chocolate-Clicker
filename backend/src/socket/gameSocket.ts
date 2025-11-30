@@ -35,6 +35,8 @@ const gameSocket = (io: Server) => {
     socket.on("createGame", async () => {
       try {
         const game = await createGame();
+        socket.leave("waitingRoom");
+        socket.join(`game_${game.id}`);
         socket.emit("gameJoined", game);
         const games = await getGames();
         io.to("waitingRoom").emit("games", games);
