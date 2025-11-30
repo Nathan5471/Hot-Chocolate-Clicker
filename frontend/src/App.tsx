@@ -88,13 +88,13 @@ function App() {
           >
             <div className="flex flex-row w-full">
               <h2 className="text-lg text-left font-bold">
-                Upgrade #1 ({game.upgrade1})
+                More Chocolate ({game.upgrade1})
               </h2>
               <p className="ml-auto">
                 {Math.round(5 ** 1 * 1.25 ** game.upgrade1)} HCs
               </p>
             </div>
-            <p>This does some cool stuff</p>
+            <p>Get 1 more hot chocolate per click</p>
           </button>
           <button
             className="w-full h-20 flex flex-col bg-primary-a2 hover:bg-primary-a3 transition-colors rounded-lg p-2"
@@ -102,13 +102,13 @@ function App() {
           >
             <div className="flex flex-row w-full">
               <h2 className="text-lg text-left font-bold">
-                Upgrade #2 ({game.upgrade2})
+                Better Machine ({game.upgrade2})
               </h2>
               <p className="ml-auto">
                 {Math.round(5 ** 2 * 1.25 ** game.upgrade2)} HCs
               </p>
             </div>
-            <p>This does some cool stuff</p>
+            <p>Get 5 more hot chocolates per click</p>
           </button>
           <button
             className="w-full h-20 flex flex-col bg-primary-a2 hover:bg-primary-a3 transition-colors rounded-lg p-2"
@@ -116,13 +116,13 @@ function App() {
           >
             <div className="flex flex-row w-full">
               <h2 className="text-lg text-left font-bold">
-                Upgrade #3 ({game.upgrade3})
+                Automated Machine #3 ({game.upgrade3})
               </h2>
               <p className="ml-auto">
                 {Math.round(5 ** 3 * 1.25 ** game.upgrade3)} HCs
               </p>
             </div>
-            <p>This does some cool stuff</p>
+            <p>Make 12 hot chocholates per second</p>
           </button>
           <button
             className="w-full h-20 flex flex-col bg-primary-a2 hover:bg-primary-a3 transition-colors rounded-lg p-2"
@@ -130,13 +130,13 @@ function App() {
           >
             <div className="flex flex-row w-full">
               <h2 className="text-lg text-left font-bold">
-                Upgrade #4 ({game.upgrade4})
+                Extra Machine ({game.upgrade4})
               </h2>
               <p className="ml-auto">
                 {Math.round(5 ** 4 * 1.25 ** game.upgrade4)} HCs
               </p>
             </div>
-            <p>This does some cool stuff</p>
+            <p>Get 30 more hot chocolates per click</p>
           </button>
           <button
             className="w-full h-20 flex flex-col bg-primary-a2 hover:bg-primary-a3 transition-colors rounded-lg p-2"
@@ -144,13 +144,13 @@ function App() {
           >
             <div className="flex flex-row w-full">
               <h2 className="text-lg text-left font-bold">
-                Upgrade #5 ({game.upgrade5})
+                Employee ({game.upgrade5})
               </h2>
               <p className="ml-auto">
                 {Math.round(5 ** 5 * 1.25 ** game.upgrade5)} HCs
               </p>
             </div>
-            <p>This does some cool stuff</p>
+            <p>Make 50 hot chocolates per second</p>
           </button>
           <button
             className="w-full h-20 flex flex-col bg-primary-a2 hover:bg-primary-a3 transition-colors rounded-lg p-2"
@@ -158,13 +158,13 @@ function App() {
           >
             <div className="flex flex-row w-full">
               <h2 className="text-lg text-left font-bold">
-                Upgrade #6 ({game.upgrade6})
+                Shop ({game.upgrade6})
               </h2>
               <p className="ml-auto">
                 {Math.round(5 ** 6 * 1.25 ** game.upgrade6)} HCs
               </p>
             </div>
-            <p>This does some cool stuff</p>
+            <p>Make 500 hot chocolates per second</p>
           </button>
           <button
             className="w-full h-20 flex flex-col bg-primary-a2 hover:bg-primary-a3 transition-colors rounded-lg p-2"
@@ -172,13 +172,13 @@ function App() {
           >
             <div className="flex flex-row w-full">
               <h2 className="text-lg text-left font-bold">
-                Upgrade #7 ({game.upgrade7})
+                Super Machine ({game.upgrade7})
               </h2>
               <p className="ml-auto">
                 {Math.round(5 ** 7 * 1.25 ** game.upgrade7)} HCs
               </p>
             </div>
-            <p>This does some cool stuff</p>
+            <p>Get 350 more hot chocolates per click</p>
           </button>
           <button
             className="w-full h-20 flex flex-col bg-primary-a2 hover:bg-primary-a3 transition-colors rounded-lg p-2"
@@ -186,13 +186,13 @@ function App() {
           >
             <div className="flex flex-row w-full">
               <h2 className="text-lg text-left font-bold">
-                Upgrade #8 ({game.upgrade8})
+                Super Store ({game.upgrade8})
               </h2>
               <p className="ml-auto">
                 {Math.round(5 ** 8 * 1.25 ** game.upgrade8)} HCs
               </p>
             </div>
-            <p>This does some cool stuff</p>
+            <p>Make 4700 hot chocolates per second</p>
           </button>
           <button
             className="w-full h-20 flex flex-col bg-primary-a2 hover:bg-primary-a3 transition-colors rounded-lg p-2"
@@ -200,13 +200,13 @@ function App() {
           >
             <div className="flex flex-row w-full">
               <h2 className="text-lg text-left font-bold">
-                Upgrade #9 ({game.upgrade9})
+                Factory ({game.upgrade9})
               </h2>
               <p className="ml-auto">
                 {Math.round(5 ** 9 * 1.25 ** game.upgrade9)} HCs
               </p>
             </div>
-            <p>This does some cool stuff</p>
+            <p>Make 60000 hot chocolates per second</p>
           </button>
           <button
             className="w-full h-20 flex flex-col bg-primary-a2 hover:bg-primary-a3 transition-colors rounded-lg p-2"
@@ -214,13 +214,13 @@ function App() {
           >
             <div className="flex flex-row w-full">
               <h2 className="text-lg text-left font-bold">
-                Upgrade #10 ({game.upgrade10})
+                Chocolate Training ({game.upgrade10})
               </h2>
               <p className="ml-auto">
                 {Math.round(5 ** 10 * 1.25 ** game.upgrade10)} HCs
               </p>
             </div>
-            <p>This does some cool stuff</p>
+            <p>Get 10000 more hot chocolates per click</p>
           </button>
           <button
             className="w-full h-20 flex flex-col bg-primary-a2 hover:bg-primary-a3 transition-colors rounded-lg p-2"
@@ -228,13 +228,13 @@ function App() {
           >
             <div className="flex flex-row w-full">
               <h2 className="text-lg text-left font-bold">
-                Upgrade #11 ({game.upgrade11})
+                Plantation ({game.upgrade11})
               </h2>
               <p className="ml-auto">
                 {Math.round(5 ** 11 * 1.25 ** game.upgrade11)} HCs
               </p>
             </div>
-            <p>This does some cool stuff</p>
+            <p>Make 250000 hot chocolates per second</p>
           </button>
         </div>
       </div>

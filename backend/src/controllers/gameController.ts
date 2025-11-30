@@ -32,7 +32,7 @@ export const purchaseUpgrade = async (upgrade: number) => {
   const upgradeMap = {
     1: { upgradeEffect: "clicks", upgradeWeight: 1, amount: game.upgrade1 },
     2: { upgradeEffect: "clicks", upgradeWeight: 5, amount: game.upgrade2 },
-    3: { upgradeEffect: "perSecond", upgradeWeight: 2, amount: game.upgrade3 },
+    3: { upgradeEffect: "perSecond", upgradeWeight: 12, amount: game.upgrade3 },
     4: { upgradeEffect: "clicks", upgradeWeight: 30, amount: game.upgrade4 },
     5: { upgradeEffect: "perSecond", upgradeWeight: 50, amount: game.upgrade5 },
     6: {
