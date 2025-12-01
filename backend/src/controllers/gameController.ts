@@ -183,6 +183,8 @@ export const tickHotChocolatesPerSecond = async () => {
       where: { id: game.id },
       data: {
         hotChocolates: game.hotChocolates + game.hotChocolatesPerSecond,
+        allTimeHotChocolates:
+          game.allTimeHotChocolates + game.hotChocolatesPerSecond,
       },
     });
     updatedGames.push(updatedGame);

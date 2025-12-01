@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import socket from "./socket";
+import formatNumber from "./utils/formatNumber";
 
 function App() {
   interface Game {
@@ -134,19 +135,65 @@ function App() {
 
   return (
     <div className="w-screen h-screen flex flex-row">
-      <div className="w-2/3 flex flex-col items-center justify-center bg-primary-a0">
-        <div className="w-1/2 aspect-square flex items-center justify-center bg-primary-a1 rounded-lg p-4">
-          <img
-            src="/hotChocolate.png"
-            alt="Hot Chocolate"
-            className="w-11/12 h-11/12 hover:scale-110 transition-transform"
-            onClick={clickButton}
-          />
+      <div className="w-2/3 flex flex-row items-center justify-center bg-primary-a0">
+        <div className="w-2/5 aspect-square flex items-center justify-center bg-primary-a1 rounded-lg p-4">
+          <button className="w-11/12 h-11/12 flex items-center justify-center hover:scale-110 transition-transform">
+            <img
+              src="/hotChocolate.png"
+              alt="Hot Chocolate"
+              className="w-11/12 h-11/12"
+              onClick={clickButton}
+            />
+          </button>
+        </div>
+        <div className="h-8/12 ml-2 flex flex-col p-2 bg-primary-a1 rounded-lg">
+          <h2 className="text-xl font-bold">Stats</h2>
+          <div className="flex flex-col mt-2 gap-2">
+            <div className="w-25 h-full flex flex-col items-center bg-primary-a2 rounded-lg p-2">
+              <p className="text-2xl">
+                {formatNumber(
+                  game.hotChocolatesPerClick *
+                    game.hotChocolatesPerClickMultiplier
+                )}
+              </p>
+              <p>Per Click</p>
+            </div>
+            <div className="w-25 h-full flex flex-col items-center bg-primary-a2 rounded-lg p-2">
+              <p className="text-2xl">
+                {formatNumber(game.hotChocolatesPerSecond)}
+              </p>
+              <p>Per Second</p>
+            </div>
+            <div className="w-25 h-full flex flex-col items-center bg-primary-a2 rounded-lg p-2">
+              <p className="text-2xl">
+                {formatNumber(
+                  game.upgrade1 +
+                    game.upgrade2 +
+                    game.upgrade3 +
+                    game.upgrade4 +
+                    game.upgrade5 +
+                    game.upgrade6 +
+                    game.upgrade7 +
+                    game.upgrade8 +
+                    game.upgrade9 +
+                    game.upgrade10 +
+                    game.upgrade11
+                )}
+              </p>
+              <p>Purchases</p>
+            </div>
+            <div className="w-25 h-full flex flex-col items-center bg-primary-a2 rounded-lg p-2">
+              <p className="text-2xl">
+                {formatNumber(game.allTimeHotChocolates)}
+              </p>
+              <p>All Time</p>
+            </div>
+          </div>
         </div>
       </div>
       <div className="w-1/3 h-screen flex flex-col items-center bg-primary-a1 p-6">
         <h1 className="text-3xl font-bold text-center mb-2">
-          {game.hotChocolates} Hot Chocolates
+          {formatNumber(game.hotChocolates)} Hot Chocolates
         </h1>
         <div className="w-full h-full overflow-y-auto flex flex-col gap-2">
           {(() => {
@@ -166,7 +213,7 @@ function App() {
                   <h2 className="text-lg text-left font-bold">
                     Booster #{remainingBoosters[0]}
                   </h2>
-                  <p className="ml-auto">{booster.price} HCs</p>
+                  <p className="ml-auto">{formatNumber(booster.price)} HCs</p>
                 </div>
                 <p>Multiplies hot chocolates per click by {booster.effect}x</p>
               </button>
@@ -178,10 +225,12 @@ function App() {
           >
             <div className="flex flex-row w-full">
               <h2 className="text-lg text-left font-bold">
-                More Chocolate ({game.upgrade1})
+                More Chocolate ({formatNumber(game.upgrade1)})
               </h2>
               <p className="ml-auto">
-                {Math.round(105.36 ** (0.6 + 1 * 0.4) * 1.4 ** game.upgrade1)}{" "}
+                {formatNumber(
+                  Math.round(105.36 ** (0.6 + 1 * 0.4) * 1.4 ** game.upgrade1)
+                )}{" "}
                 HCs
               </p>
             </div>
@@ -193,10 +242,12 @@ function App() {
           >
             <div className="flex flex-row w-full">
               <h2 className="text-lg text-left font-bold">
-                Better Machine ({game.upgrade2})
+                Better Machine ({formatNumber(game.upgrade2)})
               </h2>
               <p className="ml-auto">
-                {Math.round(105.36 ** (0.6 + 2 * 0.4) * 1.4 ** game.upgrade2)}{" "}
+                {formatNumber(
+                  Math.round(105.36 ** (0.6 + 2 * 0.4) * 1.4 ** game.upgrade2)
+                )}{" "}
                 HCs
               </p>
             </div>
@@ -208,10 +259,12 @@ function App() {
           >
             <div className="flex flex-row w-full">
               <h2 className="text-lg text-left font-bold">
-                Automated Machine ({game.upgrade3})
+                Automated Machine ({formatNumber(game.upgrade3)})
               </h2>
               <p className="ml-auto">
-                {Math.round(105.36 ** (0.6 + 3 * 0.4) * 1.4 ** game.upgrade3)}{" "}
+                {formatNumber(
+                  Math.round(105.36 ** (0.6 + 3 * 0.4) * 1.4 ** game.upgrade3)
+                )}{" "}
                 HCs
               </p>
             </div>
@@ -223,14 +276,16 @@ function App() {
           >
             <div className="flex flex-row w-full">
               <h2 className="text-lg text-left font-bold">
-                Extra Machine ({game.upgrade4})
+                Extra Machine ({formatNumber(game.upgrade4)})
               </h2>
               <p className="ml-auto">
-                {Math.round(105.36 ** (0.6 + 4 * 0.4) * 1.4 ** game.upgrade4)}{" "}
+                {formatNumber(
+                  Math.round(105.36 ** (0.6 + 4 * 0.4) * 1.4 ** game.upgrade4)
+                )}{" "}
                 HCs
               </p>
             </div>
-            <p>Make 1000 hot chocolates per second</p>
+            <p>Make {formatNumber(1000)} hot chocolates per second</p>
           </button>
           <button
             className="w-full h-20 flex flex-col bg-primary-a2 hover:bg-primary-a3 transition-colors rounded-lg p-2"
@@ -238,14 +293,16 @@ function App() {
           >
             <div className="flex flex-row w-full">
               <h2 className="text-lg text-left font-bold">
-                Employee ({game.upgrade5})
+                Employee ({formatNumber(game.upgrade5)})
               </h2>
               <p className="ml-auto">
-                {Math.round(105.36 ** (0.6 + 5 * 0.4) * 1.4 ** game.upgrade5)}{" "}
+                {formatNumber(
+                  Math.round(105.36 ** (0.6 + 5 * 0.4) * 1.4 ** game.upgrade5)
+                )}{" "}
                 HCs
               </p>
             </div>
-            <p>Make 20000 hot chocolates per second</p>
+            <p>Make {formatNumber(20000)} hot chocolates per second</p>
           </button>
           <button
             className="w-full h-20 flex flex-col bg-primary-a2 hover:bg-primary-a3 transition-colors rounded-lg p-2"
@@ -253,14 +310,16 @@ function App() {
           >
             <div className="flex flex-row w-full">
               <h2 className="text-lg text-left font-bold">
-                Shop ({game.upgrade6})
+                Shop ({formatNumber(game.upgrade6)})
               </h2>
               <p className="ml-auto">
-                {Math.round(105.36 ** (0.6 + 6 * 0.4) * 1.4 ** game.upgrade6)}{" "}
+                {formatNumber(
+                  Math.round(105.36 ** (0.6 + 6 * 0.4) * 1.4 ** game.upgrade6)
+                )}{" "}
                 HCs
               </p>
             </div>
-            <p>Make 130000 hot chocolates per second</p>
+            <p>Make {formatNumber(130000)} hot chocolates per second</p>
           </button>
           <button
             className="w-full h-20 flex flex-col bg-primary-a2 hover:bg-primary-a3 transition-colors rounded-lg p-2"
@@ -268,14 +327,16 @@ function App() {
           >
             <div className="flex flex-row w-full">
               <h2 className="text-lg text-left font-bold">
-                Super Machine ({game.upgrade7})
+                Super Machine ({formatNumber(game.upgrade7)})
               </h2>
               <p className="ml-auto">
-                {Math.round(105.36 ** (0.6 + 7 * 0.4) * 1.4 ** game.upgrade7)}{" "}
+                {formatNumber(
+                  Math.round(105.36 ** (0.6 + 7 * 0.4) * 1.4 ** game.upgrade7)
+                )}{" "}
                 HCs
               </p>
             </div>
-            <p>Make 750000 hot chocolates per second</p>
+            <p>Make {formatNumber(750000)} hot chocolates per second</p>
           </button>
           <button
             className="w-full h-20 flex flex-col bg-primary-a2 hover:bg-primary-a3 transition-colors rounded-lg p-2"
@@ -283,14 +344,16 @@ function App() {
           >
             <div className="flex flex-row w-full">
               <h2 className="text-lg text-left font-bold">
-                Super Store ({game.upgrade8})
+                Super Store ({formatNumber(game.upgrade8)})
               </h2>
               <p className="ml-auto">
-                {Math.round(105.36 ** (0.6 + 8 * 0.4) * 1.4 ** game.upgrade8)}{" "}
+                {formatNumber(
+                  Math.round(105.36 ** (0.6 + 8 * 0.4) * 1.4 ** game.upgrade8)
+                )}{" "}
                 HCs
               </p>
             </div>
-            <p>Make 1000000 hot chocolates per second</p>
+            <p>Make {formatNumber(1000000)} hot chocolates per second</p>
           </button>
           <button
             className="w-full h-20 flex flex-col bg-primary-a2 hover:bg-primary-a3 transition-colors rounded-lg p-2"
@@ -298,14 +361,16 @@ function App() {
           >
             <div className="flex flex-row w-full">
               <h2 className="text-lg text-left font-bold">
-                Factory ({game.upgrade9})
+                Factory ({formatNumber(game.upgrade9)})
               </h2>
               <p className="ml-auto">
-                {Math.round(105.36 ** (0.6 + 9 * 0.4) * 1.4 ** game.upgrade9)}{" "}
+                {formatNumber(
+                  Math.round(105.36 ** (0.6 + 9 * 0.4) * 1.4 ** game.upgrade9)
+                )}{" "}
                 HCs
               </p>
             </div>
-            <p>Make 15000000 hot chocolates per second</p>
+            <p>Make {formatNumber(15000000)} hot chocolates per second</p>
           </button>
           <button
             className="w-full h-20 flex flex-col bg-primary-a2 hover:bg-primary-a3 transition-colors rounded-lg p-2"
@@ -313,14 +378,16 @@ function App() {
           >
             <div className="flex flex-row w-full">
               <h2 className="text-lg text-left font-bold">
-                Chocolate Training ({game.upgrade10})
+                Chocolate Training ({formatNumber(game.upgrade10)})
               </h2>
               <p className="ml-auto">
-                {Math.round(105.36 ** (0.6 + 10 * 0.4) * 1.4 ** game.upgrade10)}{" "}
+                {formatNumber(
+                  Math.round(105.36 ** (0.6 + 10 * 0.4) * 1.4 ** game.upgrade10)
+                )}{" "}
                 HCs
               </p>
             </div>
-            <p>Make 64000000 hot chocolates per second</p>
+            <p>Make {formatNumber(64000000)} hot chocolates per second</p>
           </button>
           <button
             className="w-full h-20 flex flex-col bg-primary-a2 hover:bg-primary-a3 transition-colors rounded-lg p-2"
@@ -328,14 +395,16 @@ function App() {
           >
             <div className="flex flex-row w-full">
               <h2 className="text-lg text-left font-bold">
-                Plantation ({game.upgrade11})
+                Plantation ({formatNumber(game.upgrade11)})
               </h2>
               <p className="ml-auto">
-                {Math.round(105.36 ** (0.6 + 11 * 0.4) * 1.4 ** game.upgrade11)}{" "}
+                {formatNumber(
+                  Math.round(105.36 ** (0.6 + 11 * 0.4) * 1.4 ** game.upgrade11)
+                )}{" "}
                 HCs
               </p>
             </div>
-            <p>Make 100000000 hot chocolates per second</p>
+            <p>Make {formatNumber(100000000)} hot chocolates per second</p>
           </button>
         </div>
       </div>
