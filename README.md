@@ -13,3 +13,7 @@ For the frontend I kept it simple and only used React and TypeScript. Instead of
 This is deployed with Docker. If you want to host it yourself, use the docker-compose.yaml file, make sure to fill in the environment variables.
 
 ## Screenshots
+
+<img width="1917" height="838" alt="image" src="https://github.com/user-attachments/assets/5b9fda3e-7a70-4518-97c7-e02efedeb773" />
+
+<img width="1916" height="841" alt="image" src="https://github.com/user-attachments/assets/4a74a672-74f0-44bf-a203-1fe0f76a5837" />
