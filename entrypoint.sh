@@ -9,10 +9,9 @@ echo "PostgreSQL is ready!"
 
 echo "Building backend..."
 npx prisma generate
-npm run build
 
 echo "Running migrations..."
 npx prisma migrate deploy
 
-echo "Starting backend..."
-node dist/index.js
+echo "Running backend..."
+npm run dev
