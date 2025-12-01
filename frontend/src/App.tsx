@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import socket from "./socket";
 import formatNumber from "./utils/formatNumber";
+import { toast } from "react-toastify";
 
 function App() {
   interface Game {
@@ -49,6 +50,11 @@ function App() {
 
     socket.on("playerCount", (newPlayerCount: number) => {
       setPlayerCount(newPlayerCount);
+    });
+
+    socket.on("error", (data: { action: string; error: Error }) => {
+      console.error(`Error during ${data.action}:`, data.error);
+      toast.error(`Error during ${data.action}`);
     });
   }, []);
 

@@ -12,12 +12,50 @@ export const getGame = async (id: number) => {
   if (!game) {
     throw new Error("Game not found");
   }
-  return game;
+  return {
+    id: game.id,
+    hotChocolates: String(game.hotChocolates), // Convert BigInt to string since BigInt breaks Socket
+    allTimeHotChocolates: String(game.allTimeHotChocolates),
+    hotChocolatesPerClick: String(game.hotChocolatesPerClick),
+    hotChocolatesPerClickMultiplier: game.hotChocolatesPerClickMultiplier,
+    hotChocolatesPerSecond: String(game.hotChocolatesPerSecond),
+    purchasedBoosters: game.purchasedBoosters,
+    upgrade1: game.upgrade1,
+    upgrade2: game.upgrade2,
+    upgrade3: game.upgrade3,
+    upgrade4: game.upgrade4,
+    upgrade5: game.upgrade5,
+    upgrade6: game.upgrade6,
+    upgrade7: game.upgrade7,
+    upgrade8: game.upgrade8,
+    upgrade9: game.upgrade9,
+    upgrade10: game.upgrade10,
+    upgrade11: game.upgrade11,
+  };
 };
 
 export const createGame = async () => {
   const game = await prisma.game.create({});
-  return game;
+  return {
+    id: game.id,
+    hotChocolates: String(game.hotChocolates),
+    allTimeHotChocolates: String(game.allTimeHotChocolates),
+    hotChocolatesPerClick: String(game.hotChocolatesPerClick),
+    hotChocolatesPerClickMultiplier: game.hotChocolatesPerClickMultiplier,
+    hotChocolatesPerSecond: String(game.hotChocolatesPerSecond),
+    purchasedBoosters: game.purchasedBoosters,
+    upgrade1: game.upgrade1,
+    upgrade2: game.upgrade2,
+    upgrade3: game.upgrade3,
+    upgrade4: game.upgrade4,
+    upgrade5: game.upgrade5,
+    upgrade6: game.upgrade6,
+    upgrade7: game.upgrade7,
+    upgrade8: game.upgrade8,
+    upgrade9: game.upgrade9,
+    upgrade10: game.upgrade10,
+    upgrade11: game.upgrade11,
+  };
 };
 
 export const click = async (id: number) => {
@@ -40,7 +78,27 @@ export const click = async (id: number) => {
           BigInt(game.hotChocolatesPerClickMultiplier),
     },
   });
-  return clickedGame;
+  return {
+    id: clickedGame.id,
+    hotChocolates: String(clickedGame.hotChocolates),
+    allTimeHotChocolates: String(clickedGame.allTimeHotChocolates),
+    hotChocolatesPerClick: String(clickedGame.hotChocolatesPerClick),
+    hotChocolatesPerClickMultiplier:
+      clickedGame.hotChocolatesPerClickMultiplier,
+    hotChocolatesPerSecond: String(clickedGame.hotChocolatesPerSecond),
+    purchasedBoosters: clickedGame.purchasedBoosters,
+    upgrade1: clickedGame.upgrade1,
+    upgrade2: clickedGame.upgrade2,
+    upgrade3: clickedGame.upgrade3,
+    upgrade4: clickedGame.upgrade4,
+    upgrade5: clickedGame.upgrade5,
+    upgrade6: clickedGame.upgrade6,
+    upgrade7: clickedGame.upgrade7,
+    upgrade8: clickedGame.upgrade8,
+    upgrade9: clickedGame.upgrade9,
+    upgrade10: clickedGame.upgrade10,
+    upgrade11: clickedGame.upgrade11,
+  };
 };
 
 export const purchaseUpgrade = async (id: number, upgrade: number) => {
@@ -135,7 +193,27 @@ export const purchaseUpgrade = async (id: number, upgrade: number) => {
       upgrade11: upgrade === 11 ? game.upgrade11 + 1 : game.upgrade11,
     },
   });
-  return updatedGame;
+  return {
+    id: updatedGame.id,
+    hotChocolates: String(updatedGame.hotChocolates),
+    allTimeHotChocolates: String(updatedGame.allTimeHotChocolates),
+    hotChocolatesPerClick: String(updatedGame.hotChocolatesPerClick),
+    hotChocolatesPerClickMultiplier:
+      updatedGame.hotChocolatesPerClickMultiplier,
+    hotChocolatesPerSecond: String(updatedGame.hotChocolatesPerSecond),
+    purchasedBoosters: updatedGame.purchasedBoosters,
+    upgrade1: updatedGame.upgrade1,
+    upgrade2: updatedGame.upgrade2,
+    upgrade3: updatedGame.upgrade3,
+    upgrade4: updatedGame.upgrade4,
+    upgrade5: updatedGame.upgrade5,
+    upgrade6: updatedGame.upgrade6,
+    upgrade7: updatedGame.upgrade7,
+    upgrade8: updatedGame.upgrade8,
+    upgrade9: updatedGame.upgrade9,
+    upgrade10: updatedGame.upgrade10,
+    upgrade11: updatedGame.upgrade11,
+  };
 };
 
 export const purchaseBooster = async (id: number, booster: number) => {
@@ -174,7 +252,27 @@ export const purchaseBooster = async (id: number, booster: number) => {
       },
     },
   });
-  return updatedGame;
+  return {
+    id: updatedGame.id,
+    hotChocolates: String(updatedGame.hotChocolates),
+    allTimeHotChocolates: String(updatedGame.allTimeHotChocolates),
+    hotChocolatesPerClick: String(updatedGame.hotChocolatesPerClick),
+    hotChocolatesPerClickMultiplier:
+      updatedGame.hotChocolatesPerClickMultiplier,
+    hotChocolatesPerSecond: String(updatedGame.hotChocolatesPerSecond),
+    purchasedBoosters: updatedGame.purchasedBoosters,
+    upgrade1: updatedGame.upgrade1,
+    upgrade2: updatedGame.upgrade2,
+    upgrade3: updatedGame.upgrade3,
+    upgrade4: updatedGame.upgrade4,
+    upgrade5: updatedGame.upgrade5,
+    upgrade6: updatedGame.upgrade6,
+    upgrade7: updatedGame.upgrade7,
+    upgrade8: updatedGame.upgrade8,
+    upgrade9: updatedGame.upgrade9,
+    upgrade10: updatedGame.upgrade10,
+    upgrade11: updatedGame.upgrade11,
+  };
 };
 
 export const tickHotChocolatesPerSecond = async () => {
@@ -189,7 +287,27 @@ export const tickHotChocolatesPerSecond = async () => {
           game.allTimeHotChocolates + game.hotChocolatesPerSecond,
       },
     });
-    updatedGames.push(updatedGame);
+    updatedGames.push({
+      id: updatedGame.id,
+      hotChocolates: String(updatedGame.hotChocolates),
+      allTimeHotChocolates: String(updatedGame.allTimeHotChocolates),
+      hotChocolatesPerClick: String(updatedGame.hotChocolatesPerClick),
+      hotChocolatesPerClickMultiplier:
+        updatedGame.hotChocolatesPerClickMultiplier,
+      hotChocolatesPerSecond: String(updatedGame.hotChocolatesPerSecond),
+      purchasedBoosters: updatedGame.purchasedBoosters,
+      upgrade1: updatedGame.upgrade1,
+      upgrade2: updatedGame.upgrade2,
+      upgrade3: updatedGame.upgrade3,
+      upgrade4: updatedGame.upgrade4,
+      upgrade5: updatedGame.upgrade5,
+      upgrade6: updatedGame.upgrade6,
+      upgrade7: updatedGame.upgrade7,
+      upgrade8: updatedGame.upgrade8,
+      upgrade9: updatedGame.upgrade9,
+      upgrade10: updatedGame.upgrade10,
+      upgrade11: updatedGame.upgrade11,
+    });
   }
   return updatedGames;
 };
