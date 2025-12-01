@@ -1,0 +1,26 @@
+services:
+  hot-chocolate:
+    image: nathan5471/hot-chocolate:latest
+    container_name: hot-chocolate
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgres://postgres:password@postgres:5432/hotchocolate
+    restart: unless-stopped
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=hotchocolate
+    restart: unless-stopped
+    volumes:
+      - pgdata:/var/lib/postgresql
+
+volumes:
+  pgdata:
