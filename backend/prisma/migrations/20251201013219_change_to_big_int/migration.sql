@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Game" ALTER COLUMN "hotChocolates" SET DATA TYPE BIGINT,
+ALTER COLUMN "allTimeHotChocolates" SET DATA TYPE BIGINT,
+ALTER COLUMN "hotChocolatesPerSecond" SET DATA TYPE BIGINT,
+ALTER COLUMN "hotChocolatesPerClick" SET DATA TYPE BIGINT;

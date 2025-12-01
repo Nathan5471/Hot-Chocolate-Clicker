@@ -32,10 +32,12 @@ export const click = async (id: number) => {
     data: {
       hotChocolates:
         game.hotChocolates +
-        game.hotChocolatesPerClick * game.hotChocolatesPerClickMultiplier,
+        game.hotChocolatesPerClick *
+          BigInt(game.hotChocolatesPerClickMultiplier),
       allTimeHotChocolates:
         game.allTimeHotChocolates +
-        game.hotChocolatesPerClick * game.hotChocolatesPerClickMultiplier,
+        game.hotChocolatesPerClick *
+          BigInt(game.hotChocolatesPerClickMultiplier),
     },
   });
   return clickedGame;
@@ -111,14 +113,14 @@ export const purchaseUpgrade = async (id: number, upgrade: number) => {
   const updatedGame = await prisma.game.update({
     where: { id: game.id },
     data: {
-      hotChocolates: game.hotChocolates - price,
+      hotChocolates: game.hotChocolates - BigInt(price),
       hotChocolatesPerClick:
         upgradeData.upgradeEffect === "clicks"
-          ? game.hotChocolatesPerClick + upgradeData.upgradeWeight
+          ? game.hotChocolatesPerClick + BigInt(upgradeData.upgradeWeight)
           : game.hotChocolatesPerClick,
       hotChocolatesPerSecond:
         upgradeData.upgradeEffect === "perSecond"
-          ? game.hotChocolatesPerSecond + upgradeData.upgradeWeight
+          ? game.hotChocolatesPerSecond + BigInt(upgradeData.upgradeWeight)
           : game.hotChocolatesPerSecond,
       upgrade1: upgrade === 1 ? game.upgrade1 + 1 : game.upgrade1,
       upgrade2: upgrade === 2 ? game.upgrade2 + 1 : game.upgrade2,
@@ -164,7 +166,7 @@ export const purchaseBooster = async (id: number, booster: number) => {
   const updatedGame = await prisma.game.update({
     where: { id: game.id },
     data: {
-      hotChocolates: game.hotChocolates - boosterData.price,
+      hotChocolates: game.hotChocolates - BigInt(boosterData.price),
       hotChocolatesPerClickMultiplier:
         game.hotChocolatesPerClickMultiplier * boosterData.effect,
       purchasedBoosters: {
