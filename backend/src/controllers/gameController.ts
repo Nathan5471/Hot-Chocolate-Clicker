@@ -30,9 +30,12 @@ export const click = async (id: number) => {
   const clickedGame = await prisma.game.update({
     where: { id: game.id },
     data: {
-      hotChocolates: game.hotChocolates + game.hotChocolatesPerClick,
+      hotChocolates:
+        game.hotChocolates +
+        game.hotChocolatesPerClick * game.hotChocolatesPerClickMultiplier,
       allTimeHotChocolates:
-        game.allTimeHotChocolates + game.hotChocolatesPerClick,
+        game.allTimeHotChocolates +
+        game.hotChocolatesPerClick * game.hotChocolatesPerClickMultiplier,
     },
   });
   return clickedGame;
@@ -47,13 +50,17 @@ export const purchaseUpgrade = async (id: number, upgrade: number) => {
   }
   const upgradeMap = {
     1: { upgradeEffect: "clicks", upgradeWeight: 15, amount: game.upgrade1 },
-    2: { upgradeEffect: "clicks", upgradeWeight: 80, amount: game.upgrade2 },
+    2: { upgradeEffect: "perSecond", upgradeWeight: 80, amount: game.upgrade2 },
     3: {
       upgradeEffect: "perSecond",
       upgradeWeight: 300,
       amount: game.upgrade3,
     },
-    4: { upgradeEffect: "clicks", upgradeWeight: 1000, amount: game.upgrade4 },
+    4: {
+      upgradeEffect: "perSecond",
+      upgradeWeight: 1000,
+      amount: game.upgrade4,
+    },
     5: {
       upgradeEffect: "perSecond",
       upgradeWeight: 20000,
@@ -65,7 +72,7 @@ export const purchaseUpgrade = async (id: number, upgrade: number) => {
       amount: game.upgrade6,
     },
     7: {
-      upgradeEffect: "clicks",
+      upgradeEffect: "perSecond",
       upgradeWeight: 750000,
       amount: game.upgrade7,
     },
@@ -80,7 +87,7 @@ export const purchaseUpgrade = async (id: number, upgrade: number) => {
       amount: game.upgrade9,
     },
     10: {
-      upgradeEffect: "clicks",
+      upgradeEffect: "perSecond",
       upgradeWeight: 64000000,
       amount: game.upgrade10,
     },
@@ -95,7 +102,6 @@ export const purchaseUpgrade = async (id: number, upgrade: number) => {
   }
   const upgradeData =
     upgradeMap[upgrade as 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11];
-  // The base price is 5^upgradeNumber
   const price = Math.round(
     105.36 ** (0.6 + upgrade * 0.4) * 1.4 ** upgradeData.amount
   );
@@ -125,6 +131,45 @@ export const purchaseUpgrade = async (id: number, upgrade: number) => {
       upgrade9: upgrade === 9 ? game.upgrade9 + 1 : game.upgrade9,
       upgrade10: upgrade === 10 ? game.upgrade10 + 1 : game.upgrade10,
       upgrade11: upgrade === 11 ? game.upgrade11 + 1 : game.upgrade11,
+    },
+  });
+  return updatedGame;
+};
+
+export const purchaseBooster = async (id: number, booster: number) => {
+  const game = await prisma.game.findUnique({
+    where: { id },
+  });
+  if (!game) {
+    throw new Error("Game not found");
+  }
+  if (game.purchasedBoosters.includes(booster)) {
+    throw new Error("Booster already purchased");
+  }
+  // All of these will be affecting amount per click since I think it was way too easy when the upgrades had lots of effects on per click
+  const boosterMap = {
+    1: { price: 5000, effect: 2 },
+    2: { price: 150000, effect: 2 },
+    3: { price: 75000000, effect: 3 },
+    4: { price: 3000000000, effect: 2 },
+    5: { price: 600000000000, effect: 4 },
+  };
+  if (!Object.keys(boosterMap).includes(String(booster))) {
+    throw new Error("Booster not found");
+  }
+  const boosterData = boosterMap[booster as 1 | 2 | 3 | 4 | 5];
+  if (boosterData.price > game.hotChocolates) {
+    throw new Error("Can't afford this booster");
+  }
+  const updatedGame = await prisma.game.update({
+    where: { id: game.id },
+    data: {
+      hotChocolates: game.hotChocolates - boosterData.price,
+      hotChocolatesPerClickMultiplier:
+        game.hotChocolatesPerClickMultiplier * boosterData.effect,
+      purchasedBoosters: {
+        push: booster,
+      },
     },
   });
   return updatedGame;

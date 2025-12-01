@@ -7,7 +7,9 @@ function App() {
     hotChocolates: number;
     allTimeHotChocolates: number;
     hotChocolatesPerClick: number;
+    hotChocolatesPerClickMultiplier: number;
     hotChocolatesPerSecond: number;
+    purchasedBoosters: number[];
     upgrade1: number;
     upgrade2: number;
     upgrade3: number;
@@ -23,6 +25,13 @@ function App() {
   const [gameList, setGameList] = useState<number[] | null>(null);
   const [game, setGame] = useState<Game | null>(null);
   const [playerCount, setPlayerCount] = useState<number>(0);
+  const boosterMap = {
+    1: { price: 5000, effect: 2 },
+    2: { price: 150000, effect: 2 },
+    3: { price: 75000000, effect: 3 },
+    4: { price: 3000000000, effect: 2 },
+    5: { price: 600000000000, effect: 4 },
+  };
 
   useEffect(() => {
     socket.on("games", (games: number[]) => {
@@ -82,6 +91,14 @@ function App() {
     socket.emit("purchaseUpgrade", game.id, upgrade);
   };
 
+  const purchaseBooster = (booster: number) => {
+    if (!game) return;
+    if (!Object.keys(boosterMap).includes(String(booster))) return;
+    const price = boosterMap[booster as 1 | 2 | 3 | 4 | 5].price;
+    if (price > game.hotChocolates) return;
+    socket.emit("purchaseBooster", game.id, booster);
+  };
+
   if (!game && !gameList) return;
 
   if (!game && gameList) {
@@ -132,6 +149,29 @@ function App() {
           {game.hotChocolates} Hot Chocolates
         </h1>
         <div className="w-full h-full overflow-y-auto flex flex-col gap-2">
+          {(() => {
+            const remainingBoosters = Object.keys(boosterMap).filter(
+              (booster) => {
+                return !game.purchasedBoosters.includes(Number(booster));
+              }
+            );
+            const booster =
+              boosterMap[Number(remainingBoosters[0]) as 1 | 2 | 3 | 4 | 5];
+            return (
+              <button
+                className="w-full h-20 flex flex-col bg-primary-a2 hover:bg-primary-a3 transition-colors rounded-lg p-2"
+                onClick={() => purchaseBooster(Number(remainingBoosters[0]))}
+              >
+                <div className="flex flex-row w-full">
+                  <h2 className="text-lg text-left font-bold">
+                    Booster #{remainingBoosters[0]}
+                  </h2>
+                  <p className="ml-auto">{booster.price} HCs</p>
+                </div>
+                <p>Multiplies hot chocolates per click by {booster.effect}x</p>
+              </button>
+            );
+          })()}
           <button
             className="w-full h-20 flex flex-col bg-primary-a2 hover:bg-primary-a3 transition-colors rounded-lg p-2"
             onClick={() => purchaseUpgrade(1)}
@@ -160,7 +200,7 @@ function App() {
                 HCs
               </p>
             </div>
-            <p>Get 80 more hot chocolates per click</p>
+            <p>Make 80 hot chocolates per second</p>
           </button>
           <button
             className="w-full h-20 flex flex-col bg-primary-a2 hover:bg-primary-a3 transition-colors rounded-lg p-2"
@@ -190,7 +230,7 @@ function App() {
                 HCs
               </p>
             </div>
-            <p>Get 1000 more hot chocolates per click</p>
+            <p>Make 1000 hot chocolates per second</p>
           </button>
           <button
             className="w-full h-20 flex flex-col bg-primary-a2 hover:bg-primary-a3 transition-colors rounded-lg p-2"
@@ -235,7 +275,7 @@ function App() {
                 HCs
               </p>
             </div>
-            <p>Get 750000 more hot chocolates per click</p>
+            <p>Make 750000 hot chocolates per second</p>
           </button>
           <button
             className="w-full h-20 flex flex-col bg-primary-a2 hover:bg-primary-a3 transition-colors rounded-lg p-2"
@@ -280,7 +320,7 @@ function App() {
                 HCs
               </p>
             </div>
-            <p>Get 64000000 more hot chocolates per click</p>
+            <p>Make 64000000 hot chocolates per second</p>
           </button>
           <button
             className="w-full h-20 flex flex-col bg-primary-a2 hover:bg-primary-a3 transition-colors rounded-lg p-2"

@@ -5,6 +5,7 @@ import {
   createGame,
   click,
   purchaseUpgrade,
+  purchaseBooster,
   tickHotChocolatesPerSecond,
 } from "../controllers/gameController";
 
@@ -79,6 +80,15 @@ const gameSocket = (io: Server) => {
         io.to(`game_${gameId}`).emit("gameUpdated", updatedGame);
       } catch (error) {
         socket.emit("error", { action: "purchase", error });
+      }
+    });
+
+    socket.on("purchaseBooster", async (gameId: number, booster: number) => {
+      try {
+        const updatedGame = await purchaseBooster(gameId, booster);
+        io.to(`game_${gameId}`).emit("gameUpdated", updatedGame);
+      } catch (error) {
+        socket.emit("error", { action: "purchaseBooster", error });
       }
     });
 
